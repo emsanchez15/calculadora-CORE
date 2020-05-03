@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+  Calculadora CORE
+  </title>
+  <meta charset="utf-8">
+  <script type="text/javascript">
+
+    let acumulador=0;
+    let operador=0;
+
+      const validar = () =>{
+    let n1 = document.getElementById("pantalla").value.split(",");
+    for(i=0; i<n1.length; i++){
+    if (isNaN(n1[i])){
+      return false;
+      
+    }
+      
+  }
+  return true;
+}
+
+    const vaciar = () => {
+        
+      document.getElementById("pantalla").value = "";
+      
+    }
+
+    const numero = () => Number(document.getElementById("pantalla").value);
+
+    const rellenar = (y) => {
+      document.getElementById("pantalla").value = y;
+    }
+
+    const rellenar_info = () => {
+      let num = document.getElementById("pantalla");
+      let n = Number(num.value);
+    
+      let infoelement = document.getElementById("info");
+
+        if(Number.isNaN(n)){
+          infoelement.innerHTML = "No es un número";
+        } else if (n < 100){
+          infoelement.innerHTML = "Info: El resultado es menor que 100";
+        } else if (n < 200){
+          infoelement.innerHTML= "Info: El resultado está entre 100 y 200";
+        }else{
+          infoelement.innerHTML = "Info: El resultado es superior a 200";
+        }
+      }
+
+    //OPERACIONES SOBRE NUMERO
+
+    const cuadrado = () => {
+      let num = document.getElementById("pantalla");
+      if(validar()==true){
+      	num.value = num.value * num.value;
+      	rellenar_info();
+      }
+      else{
+          num.value="Error";
+      }
+    }
+
+    const fact = () =>{
+        let num = document.getElementById("pantalla");
+           if(validar()==true){
+           	if (num.value <= 0){
+            	num.value=1;}
+            else{
+            	var out = 1;
+              	for(var i=num.value; i>1; i--){
+              		out = out * i;
+              		num.value = out;
+            	}
+          	}
+           }
+           else {
+              num.value="Error";
+           }
+    }
+
+    const mod = () =>{
+      let num = document.getElementById("pantalla");
+      if(validar()==true){
+      	num.value = Math.abs(num.value);
+      }
+      else {
+        num.value="Error";
+      }
+    }
+
+
+// OPERACIONES BINARIAS
+
+    const add = () =>{
+      if(validar()==true){
+     	acumulador = numero();
+      	operador = "+";
+      	vaciar();
+      }
+      else{
+      	rellenar("Error");
+      }
+  	}
+
+    const mul = () =>{
+      if(validar()==true){
+      	acumulador = numero();
+      	operador = "*";
+      	vaciar();
+      }
+      else{
+      	rellenar("Error");
+      }
+    }
+
+    const eq = () =>{
+      n = numero();
+      if(validar()==true){
+        switch(operador){
+          case "+":
+            rellenar (acumulador + n);
+            rellenar_info();
+            break;
+          case "*":
+            rellenar (acumulador * n);
+            rellenar_info();
+            break;
+          default:
+            rellenar(n)
+        }
+        acumulador=0;
+        operador= "";
+      }
+      else{
+      	rellenar("Error");
+      }
+  	}
+
+
+// OPERACIONES CSV
+
+    const sumatorio = () =>{
+      let n1 = document.getElementById("pantalla");
+      var lista = n1.value.split(",");
+
+      if(validar()==true){
+      	var i=0, acc=0;
+      	while(i < lista.length){
+        	acc = acc + (+lista[i]); //el + convierte el string a numero
+        	i++;
+      	}
+      	n1.value = acc;
+    	} 
+    	else{
+          n1.value="Error";
+        }
+  	}
+
+
+    const ordenar = () =>{
+      let n1 = document.getElementById("pantalla");
+      var lista = n1.value.split(",");
+      if(validar()==true){
+      	n1.value = lista.sort(); //metodo que ordena los numeros
+      }
+      else{
+          n1.value="Error";
+      }
+  	}
+
+
+    const revertir = () =>{
+      let n1 = document.getElementById("pantalla");
+      var lista = n1.value.split(",");
+      if(validar()==true){
+        n1.value=lista.reverse(); //metodo que invierte el orden
+      }
+      else {
+        n1.value="Error";
+      }
+    }
+
+
+  	const quitar = () =>{
+      let n1 = document.getElementById("pantalla");
+      var lista = n1.value.split(",");
+      if(validar()==true){
+        lista.pop();
+        n1.value = lista;
+      }
+      else{
+          n1.value="Error";
+      }      
+    }
+
+
+
+// PARTE DE HTML
+  </script> 
+</head>
+<body>
+  <h1>
+  	Calculadora de Core 
+  </h1>
+
+  <h2 id = "info"  class = "grande" title = "Info sobre el número"> 	
+  	 Info sobre el número
+  </h2> 
+
+  Número:
+  <input type="text" id="pantalla" onclick="vaciar()">
+  
+  <h3>
+  Operaciones sobre el número
+  </h3>
+  <button id="cuadrado" onclick="cuadrado()">x<sup>2</sup></button>
+  <button id="modulo" onclick="mod()">Mod</sup></button>
+  <button id="factorial" onclick="fact()">n!</sup></button>
+
+  <h3> 
+  Operaciones binarias
+  </h3>
+  <button id="suma" onclick="add()">+</sup></button>
+  <button id="multiplicacion" onclick="mul()">*</sup></button>
+  <button id="igual" onclick="eq()">=</sup></button>
+
+  <h3>
+  Operaciones en formato CSV
+  </h3>
+  <button id="sumatorio" onclick="sumatorio()">&#8512 x</sup></button>
+  <button id="ordenar" onclick="ordenar()">ordenar</sup></button>
+  <button id="revertir" onclick="revertir()">revertir</sup></button>
+  <button id="quitar" onclick="quitar()">quitar</sup></button>
+
+
+ </body>
+</html>
+
+
